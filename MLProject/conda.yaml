@@ -1,10 +1,12 @@
-name: mlflow-env
+name: heart-ml-env
+
 channels:
   - conda-forge
+
 dependencies:
-  - python=3.12
+  - python=3.10
   - pip
   - pip:
-      - mlflow==2.19.0
-      - pandas
+      - mlflow
       - scikit-learn
+      - pandas
