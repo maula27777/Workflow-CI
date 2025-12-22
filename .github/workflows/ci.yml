@@ -9,23 +9,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+    - uses: actions/checkout@v4
 
-    - name: Set up Miniconda
-      uses: conda-incubator/setup-miniconda@v3
+    - name: Set up Python
+      uses: actions/setup-python@v5
       with:
-        auto-update-conda: true
-        python-version: 3.10
-        environment-file: MLProject/conda.yaml
-        activate-environment: heart-ml
+        python-version: '3.10'
 
-    - name: Install MLflow
-      shell: bash -l {0}
+    - name: Install dependencies
       run: |
-        pip install mlflow
+        pip install mlflow scikit-learn pandas
 
-    - name: Run MLflow Project
-      shell: bash -l {0}
+    - name: Train model
       run: |
-        mlflow run MLProject
+        python MLProject/modelling.py
