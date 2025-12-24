@@ -9,9 +9,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Set up job
-      run: echo "Start CI"
-
     - name: Run actions/checkout@v3
       uses: actions/checkout@v3
 
