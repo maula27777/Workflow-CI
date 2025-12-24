@@ -2,7 +2,7 @@ name: ML CI Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches: ["main"]
 
 jobs:
   train-model:
@@ -12,13 +12,13 @@ jobs:
     - name: Set up job
       run: echo "Start CI"
 
-    - name: Run actions/checkout@v4
-      uses: actions/checkout@v4
+    - name: Run actions/checkout@v3
+      uses: actions/checkout@v3
 
-    - name: Set up Python 3.10
+    - name: Set up Python 3.12.7
       uses: actions/setup-python@v5
       with:
-        python-version: '3.10'
+        python-version: "3.12.7"
 
     - name: Check Env
       run: python --version
@@ -27,13 +27,17 @@ jobs:
       run: |
         pip install mlflow scikit-learn pandas
 
-    - name: Set MLflow Tracking URI
-      run: |
-        export MLFLOW_TRACKING_URI=file:./mlruns
-
     - name: Run mlflow project
+      env:
+        MLFLOW_TRACKING_URI: file:./mlruns
       run: |
         mlflow run MLProject --env-manager=local
 
-    - name: Complete job
-      run: echo "Done"
+    - name: Get latest MLflow run_id
+      run: |
+        python - <<EOF
+        from mlflow.tracking import MlflowClient
+        client = MlflowClient()
+        runs = client.search_runs(experiment_ids=["0"], max_results=1)
+        print("Latest run_id:", runs[0].info.run_id)
+        EOF
