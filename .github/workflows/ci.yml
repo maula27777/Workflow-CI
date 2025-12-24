@@ -32,15 +32,6 @@ jobs:
       run: |
         mlflow run MLProject --env-manager=local
 
-    - name: Get latest MLflow run_id
-      run: |
-        python - <<EOF
-        from mlflow.tracking import MlflowClient
-        client = MlflowClient()
-        runs = client.search_runs(experiment_ids=["0"], max_results=1)
-        print("Latest run_id:", runs[0].info.run_id)
-        EOF
-
     - name: Upload MLflow artifacts to GitHub
       uses: actions/upload-artifact@v4
       with:
