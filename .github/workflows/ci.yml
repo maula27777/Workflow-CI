@@ -31,7 +31,15 @@ jobs:
     - name: Run mlflow project
       run: |
         mlflow run MLProject --env-manager=local
-
+        
+    - name: Install Python dependencies
+      run: |
+        if [ -f requirements.txt ]; then
+          pip install -r requirements.txt
+        else
+          echo "No requirements.txt found, skipping"
+        fi
+        
     - name: Upload MLflow artifacts to GitHub
       uses: actions/upload-artifact@v4
       with:
