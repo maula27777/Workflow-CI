@@ -3,7 +3,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score
 
-data = pd.read_csv("MLProject/heart_processed.csv")
+data = pd.read_csv("heart_processed.csv")
 
 X = data.drop("target", axis=1)
 y = data["target"]
